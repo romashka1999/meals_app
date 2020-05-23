@@ -1,8 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Platform, TouchableNativeFeedback } from 'react-native';
 
-import Colors from '../constants/Colors';
-
 const CategoryGridTile = (props) => {
     let TouchableComponent = TouchableOpacity;
 
