@@ -1,5 +1,6 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createAppContainer } from 'react-navigation';
 import { Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -10,6 +11,7 @@ import CategoriesScreen from '../screens/CategoriesScreen';
 import CategoryMealsScreen from '../screens/CategoryMealsScreen';
 import MealDetailScreen from '../screens/MealDetailScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
+import FiltersScreen from '../screens/FiltersScreen';
 import Colors from '../constants/Colors';
 
 const defaultStackNavigatorOptions = {
@@ -27,7 +29,7 @@ const MealsStackNavigator = createStackNavigator({
     Categories: {
         screen: CategoriesScreen,
         navigationOptions: {
-            headerTitle: 'Meal Categories'
+            headerTitle: 'Meal Categories',
         }
     },
     CategoryMeals: CategoryMealsScreen,
@@ -64,7 +66,7 @@ const tabScreenConfig = {
     }
 }
 
-const MealsTabNavigator = 
+const MealsFavTabNavigator = 
     Platform.OS === 'android' 
     ? createMaterialBottomTabNavigator(
         tabScreenConfig, {
@@ -75,12 +77,40 @@ const MealsTabNavigator =
     : createBottomTabNavigator(
         tabScreenConfig, {
             tabBarOptions: {
-                activeTintColor: Colors.primaryColor,
-                activeBackgroundColor:'white',
+                activeTintColor: 'white',
+                activeBackgroundColor: Colors.primaryColor,
                 inactiveTintColor: 'black',
                 inactiveBackgroundColor: '#ccc'  
             }
         }
     );
 
-export default createAppContainer(MealsTabNavigator);
+const FiltersStackNavigator = createStackNavigator({
+    Filters: FiltersScreen
+}, {
+    defaultNavigationOptions: defaultStackNavigatorOptions
+});
+
+const MainNavigator = createDrawerNavigator({
+    MealsFavs: {
+        screen: MealsFavTabNavigator,
+        navigationOptions: {
+            drawerLabel: 'Meals'
+        }
+    },
+    Filters: {
+        screen: FiltersStackNavigator,
+        navigationOptions: {
+            drawerLabel: 'Filters',
+        }
+    }
+}, {
+    contentOptions: {
+        activeTintColor: 'white',
+        activeBackgroundColor:Colors.primaryColor,
+        inactiveTintColor: 'black',
+        inactiveBackgroundColor: '#ccc',
+    }
+});
+
+export default createAppContainer(MainNavigator);
