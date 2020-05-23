@@ -26,8 +26,6 @@ const styles = StyleSheet.create({
         flex: 1,
         margin: 15,
         height: 150,
-        borderRadius: 20,
-        overflow: 'hidden'
     },
     container: {
         flex: 1,
@@ -35,10 +33,11 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.26,
         shadowOffset: {width: 0, height: 2},
         shadowRadius: 10,
-        elevation: 3,
+        elevation: 20,
         padding: 10,
         justifyContent: 'flex-end',
-        alignItems: 'flex-end'
+        alignItems: 'flex-end',
+        borderRadius: 20,
     },
     title: {
         fontFamily: 'open-sans-bold',
