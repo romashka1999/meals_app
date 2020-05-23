@@ -1,20 +1,13 @@
-import React, { Fragment } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Platform, TouchableNativeFeedback, ImageBackground } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, ImageBackground } from 'react-native';
 
 const MealItem = (props) => {
 
-    let TouchableComponent = TouchableOpacity;
-
-    // ripple effect for android which is supported for up to 21 versions
-    if(Platform.OS === 'android' && Platform.Version >= 21) {
-        TouchableComponent = TouchableNativeFeedback;
-    }
-
     return (  
         <View style={styles.mealItem}>
-            <TouchableComponent
+            <TouchableOpacity
                 onPress={props.onSelectMeal}>
-                    <Fragment>
+                    <View>
                         <View style={{...styles.mealRow, ...styles.mealHeader}}>
                             <ImageBackground 
                                 source={{uri: props.imageUrl}}
@@ -22,31 +15,33 @@ const MealItem = (props) => {
                                 <View style={styles.titleContainer}>
                                     <Text 
                                         style={styles.title}
-                                        numberOfLines={2}>{props.title}</Text>
+                                        numberOfLines={1}>{props.title}</Text>
                                 </View>                              
                             </ImageBackground>
                         </View>
                         <View style={{...styles.mealRow, ...styles.mealDetail}}>
-                            <Text>{props.duration}m</Text>
-                            <Text>{props.complexity.toUpperCase()}</Text>
-                            <Text>{props.affordability.toUpperCase()}</Text>
+                            <Text style={{fontFamily: 'open-sans'}}>{props.duration}m</Text>
+                            <Text style={{fontFamily: 'open-sans'}}>{props.complexity.toUpperCase()}</Text>
+                            <Text style={{fontFamily: 'open-sans'}}>{props.affordability.toUpperCase()}</Text>
                         </View>
-                    </Fragment>
-            </TouchableComponent>
+                    </View>
+            </TouchableOpacity>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     mealItem: {
-        // flex: 1,
+        flex: 1,
         height: 200,
         width: '90%',
         backgroundColor: "#ccc",
         alignSelf: 'center',
         marginVertical: 10,
         borderRadius: 15,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        borderWidth: 2,
+        borderColor: 'black'
     },
     mealRow: {
         flexDirection: 'row',
