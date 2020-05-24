@@ -2,7 +2,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createAppContainer } from 'react-navigation';
-import { Platform } from 'react-native';
+import { Platform, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
@@ -20,6 +20,9 @@ const defaultStackNavigatorOptions = {
         elevation: 20,
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
+    },
+    headerTitleStyle: {
+        fontFamily: 'open-sans-bold'
     },
     headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primaryColor,
     headerTitleAlign: 'center',
@@ -52,7 +55,8 @@ const tabScreenConfig = {
             tabBarIcon: (tabInfo) => {
                 return <Ionicons name='ios-restaurant' size={30} color={tabInfo.tintColor}/>
             },
-            tabBarColor: Colors.primaryColor
+            tabBarColor: Colors.primaryColor,
+            tabBarLabel: Platform.OS === 'android' ? <Text style={{fontFamily: 'open-sans-bold'}}>Meals</Text> : 'Meals'
         }
     },
     Favorites: {
@@ -61,7 +65,8 @@ const tabScreenConfig = {
             tabBarIcon: (tabInfo) => {
                 return <Ionicons name='ios-star' size={30} color={tabInfo.tintColor}/>
             },
-            tabBarColor: Colors.accentColor
+            tabBarColor: Colors.accentColor,
+            tabBarLabel: Platform.OS === 'android' ? <Text style={{fontFamily: 'open-sans-bold'}}>Favorites</Text> : 'Favorites'
         }
     }
 }
@@ -71,12 +76,15 @@ const MealsFavTabNavigator =
     ? createMaterialBottomTabNavigator(
         tabScreenConfig, {
             activeColor: 'white',
-            shifting: true,
+            shifting: true
         }
     ) 
     : createBottomTabNavigator(
         tabScreenConfig, {
             tabBarOptions: {
+                labelStyle: {
+                    fontFamily: 'open-sans-bold'
+                },
                 activeTintColor: 'white',
                 activeBackgroundColor: Colors.primaryColor,
                 inactiveTintColor: 'black',

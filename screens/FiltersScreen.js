@@ -1,13 +1,53 @@
-import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { StyleSheet, View, Text, Switch} from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomHeaderButton from '../components/HeaderButton';
+import Colors from '../constants/Colors';
+
+const FilterSwitch = ({label, data, setData}) => {
+    return (
+        <View style={styles.filterContainer}>
+            <Text>{label}</Text>
+            <Switch 
+                thumbColor={'#ccc'}
+                trackColor={{false: Colors.accentColor, true: Colors.primaryColor}}
+                value={data}
+                onValueChange={newVal => setData(newVal)}/>
+        </View>
+    )
+}
 
 const FiltersScreen = (props) => {
+    const { navigation } = props;
+
+    const [isGlutenFree, setIsGlutenFree] = useState(false);
+    const [isLactoseFree, setIsLactoseFree] = useState(false);
+    const [isVegan, setIsVegan] = useState(false);
+    const [isVegetarian, setIsVegetarian] = useState(false);
+
+    const saveFilters = useCallback(() => {
+        const appliedFilters = {
+            glutenFree: isGlutenFree,
+            lactoseFree: isLactoseFree,
+            vegan: isVegan,
+            vegetarian: isVegetarian
+        }
+
+        console.log(appliedFilters);
+    }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian]);
+
+    useEffect(() => {
+        navigation.setParams({save: saveFilters});
+    }, [saveFilters])
+
     return (  
         <View style={styles.screen}>
-            <Text>The filters</Text>
+            <Text style={styles.title}>Available Filters</Text>
+            <FilterSwitch label='Gluten-free' data={isGlutenFree} setData={setIsGlutenFree}/>
+            <FilterSwitch label='Lactose-free' data={isLactoseFree} setData={setIsLactoseFree}/>
+            <FilterSwitch label='Vegan' data={isVegan} setData={setIsVegan}/>
+            <FilterSwitch label='Vegetarian' data={isVegetarian} setData={setIsVegetarian}/>
         </View>
     );
 }
@@ -22,6 +62,14 @@ FiltersScreen.navigationOptions = (navigationData) => {
                     iconName='ios-menu'
                     onPress={() => navigation.toggleDrawer()}/>
             </HeaderButtons>
+        ),
+        headerRight: () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                <Item 
+                    title="Save" 
+                    iconName='ios-save'
+                    onPress={navigation.getParam('save')}/>
+            </HeaderButtons>
         )
     }
 }
@@ -29,8 +77,20 @@ FiltersScreen.navigationOptions = (navigationData) => {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
+    },
+    title: {
+        fontFamily: 'open-sans-bold',
+        fontSize: 22,
+        margin: 20,
+        textAlign: 'center'
+    },
+    filterContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '80%',
+        marginVertical: 15
     }
 });
  
